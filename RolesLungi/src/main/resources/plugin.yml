@@ -1,0 +1,24 @@
+name: RolesLungi
+version: '1.0.0'
+main: com.lungi.roles.RolesPlugin
+api-version: '1.21'
+description: RPG roles and progression system
+authors: [Lungi]
+
+commands:
+  roles:
+    description: Open the roles menu
+    usage: /roles
+    aliases: [role, ролі]
+  roleadmin:
+    description: Admin commands for roles
+    usage: /roleadmin <set|give|reset> <player> <role> [amount]
+    permission: roles.admin
+
+permissions:
+  roles.admin:
+    description: Access to admin role commands
+    default: op
+  roles.use:
+    description: Use the roles system
+    default: true

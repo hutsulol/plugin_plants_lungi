@@ -1,0 +1,95 @@
+# RolesLungi Configuration
+
+# Experience required per level (flat, each level needs this amount)
+exp-per-level: 1000
+
+# Skill points given every N levels for Farmer, Miner, Knight
+skill-point-interval: 10
+
+# Builder hourly exp cap
+builder-hourly-cap: 200
+
+# Anti-abuse for knight player kills (minutes before same victim gives exp again)
+knight-kill-cooldown-minutes: 60
+
+# Max player kills per hour that give exp for knight
+knight-max-kills-per-hour: 5
+
+# Farmer bonus crop chance per level (% chance at each level)
+farmer-bonus-base-level: 5
+farmer-bonus-base-chance: 5.0
+farmer-bonus-per-level: 0.5
+farmer-bonus-max-chance: 30.0
+
+# Miner auto-smelt chance (%)
+miner-smelt-level: 10
+miner-smelt-chance: 20.0
+
+# Knight crit multiplier
+knight-crit-multiplier: 2.0
+knight-crit-chance: 5.0
+
+# Milestone rewards for Lumberjack (level: emerald-count)
+lumberjack-milestones:
+  5: 5
+  10: 10
+  20: 20
+  50: 50
+  100: 100
+
+# Milestone rewards for Fisher (level: emerald-count)
+fisher-milestones:
+  5: 5
+  10: 10
+  20: 20
+  50: 50
+  100: 100
+
+# Milestone rewards for Builder (level: emerald-count)
+builder-milestones:
+  5: 5
+  10: 10
+  20: 20
+  50: 50
+  100: 100
+
+# Experience values per action
+exp-values:
+  # Farmer
+  farmer-crop-harvest: 1
+  farmer-custom-plant: 100
+  # Lumberjack
+  lumberjack-oak-log: 1
+  lumberjack-birch-log: 1
+  lumberjack-spruce-log: 1
+  lumberjack-jungle-log: 1
+  lumberjack-acacia-log: 1
+  lumberjack-dark-oak-log: 1
+  lumberjack-mangrove-log: 1
+  lumberjack-cherry-log: 1
+  # Miner
+  miner-coal-ore: 1
+  miner-iron-ore: 3
+  miner-gold-ore: 5
+  miner-diamond-ore: 10
+  miner-emerald-ore: 12
+  miner-lapis-ore: 4
+  miner-redstone-ore: 2
+  miner-copper-ore: 2
+  miner-nether-quartz-ore: 2
+  miner-ancient-debris: 20
+  # Knight
+  knight-hostile-mob: 3
+  knight-neutral-mob: 1
+  knight-player-kill: 5
+  # Fisher
+  fisher-catch: 2
+  # Builder
+  builder-place-block: 1
+
+messages:
+  level-up: "<gold>[Ролі] <yellow>{player} <gold>підвищив рівень ролі <aqua>{role} <gold>до рівня <red>{level}!"
+  skill-point-gained: "<gold>[Ролі] <yellow>Ви отримали очко навику! Всього: <red>{points}"
+  skill-upgraded: "<green>[Ролі] <yellow>Навик <aqua>{skill} <yellow>покращено до рівня <red>{level}!"
+  knight-crit-warning: "<red>[Рицар] <yellow>Ви активували критичний удар! <red>-1 серце навсегда."
+  milestone-reward: "<gold>[Ролі] <yellow>Ви досягли рівня <red>{level} <yellow>у ролі <aqua>{role}<yellow>! Нагорода: <green>{reward}"

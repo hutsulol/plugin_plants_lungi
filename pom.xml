@@ -5,12 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lungi</groupId>
-    <artifactId>PlantsLungi</artifactId>
+    <artifactId>LungiPlugins</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>PlantsLungi</name>
-    <description>Custom plant plugin for Minecraft 1.21.4</description>
+    <name>LungiPlugins</name>
+    <description>Lungi Minecraft plugins - Plants and Roles systems</description>
+
+    <modules>
+        <module>PlantsLungi</module>
+        <module>RolesLungi</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -25,15 +30,6 @@
         </repository>
     </repositories>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -45,23 +41,6 @@
                     <target>21</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-        <finalName>PlantsLungi</finalName>
     </build>
 </project>

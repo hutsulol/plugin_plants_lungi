@@ -1,0 +1,36 @@
+# PlantsLungi Configuration
+
+# Growth time in ticks between stages (20 ticks = 1 second)
+# Default: 6000 = 5 minutes per stage
+growth-ticks: 6000
+
+# Command executed when a player harvests the custom plant
+# Placeholders: {player}, {amount}
+balance-command: "eco give {player} {amount}"
+
+# Chat notification on harvest
+# Placeholders: {player}, {amount}
+harvest-message: "&a[Plants] &e{player} &aзібрав врожай і отримав &6{amount} піратів!"
+
+# Drop amounts based on farmer level ranges
+drops:
+  level-0-9: 1
+  level-10-19: 2
+  level-20-29: 3
+  level-30-39: 4
+  level-40-plus: 5
+
+# Seed item display name
+seed-name: "&2Насіння Лунгі"
+seed-lore:
+  - "&7Особливе рослина"
+  - "&7Садіть на пашню"
+  - "&7Дає від 1 до 5 піратів"
+
+# Custom model data for the seed item (wheat seeds base)
+seed-custom-model-data: 1001
+
+# Messages
+messages:
+  no-farmland: "&cРослину можна садити лише на пашню!"
+  plant-broken: "&cВаше рослина було знищено!"
