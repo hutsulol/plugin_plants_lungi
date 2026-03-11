@@ -3,6 +3,7 @@ package com.lungi.plants;
 import com.lungi.plants.api.RolesAPIBridge;
 import com.lungi.plants.command.SeedCommand;
 import com.lungi.plants.listener.PlantListener;
+import com.lungi.plants.listener.ResourcePackListener;
 import com.lungi.plants.manager.PlantDataManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,7 +24,10 @@ public class PlantsPlugin extends JavaPlugin {
 
         rolesAPIBridge = new RolesAPIBridge(this);
 
-        getServer().getPluginManager().registerEvents(new PlantListener(this), this);
+        var pm = getServer().getPluginManager();
+        pm.registerEvents(new PlantListener(this), this);
+        pm.registerEvents(new ResourcePackListener(this), this);
+
 
         var seedCmd = getCommand("plantseed");
         if (seedCmd != null) {

@@ -5,6 +5,7 @@ import com.lungi.roles.antiabuse.AntiAbuseManager;
 import com.lungi.roles.command.RolesAdminCommand;
 import com.lungi.roles.command.RolesCommand;
 import com.lungi.roles.data.PlayerDataManager;
+import com.lungi.roles.gui.BossBarManager;
 import com.lungi.roles.gui.GUIListener;
 import com.lungi.roles.level.LevelManager;
 import com.lungi.roles.listener.*;
@@ -19,6 +20,7 @@ public class RolesPlugin extends JavaPlugin {
     private LevelManager levelManager;
     private SkillManager skillManager;
     private AntiAbuseManager antiAbuseManager;
+    private BossBarManager bossBarManager;
     private RolesAPI rolesAPI;
 
     @Override
@@ -32,6 +34,7 @@ public class RolesPlugin extends JavaPlugin {
         levelManager = new LevelManager(this);
         skillManager = new SkillManager(this);
         antiAbuseManager = new AntiAbuseManager(this);
+        bossBarManager = new BossBarManager(this);
         rolesAPI = new RolesAPI(this);
 
         // Register listeners
@@ -84,6 +87,10 @@ public class RolesPlugin extends JavaPlugin {
 
     public AntiAbuseManager getAntiAbuseManager() {
         return antiAbuseManager;
+    }
+
+    public BossBarManager getBossBarManager() {
+        return bossBarManager;
     }
 
     public RolesAPI getRolesAPI() {

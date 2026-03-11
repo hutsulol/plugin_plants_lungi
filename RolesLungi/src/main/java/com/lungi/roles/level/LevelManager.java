@@ -3,6 +3,7 @@ package com.lungi.roles.level;
 import com.lungi.roles.RolesPlugin;
 import com.lungi.roles.data.PlayerData;
 import com.lungi.roles.data.PlayerDataManager;
+import com.lungi.roles.gui.BossBarManager;
 import com.lungi.roles.role.RoleType;
 import com.lungi.roles.skill.SkillManager;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -57,6 +58,12 @@ public class LevelManager {
 
         // Unlock passive skills based on new level
         checkPassiveUnlocks(player, data, role);
+
+        // Show XP progress boss bar
+        int finalLevel = data.getRoleLevel(role);
+        long progress = getExpProgress(totalExp);
+        BossBarManager bbm = plugin.getBossBarManager();
+        if (bbm != null) bbm.showProgress(player, role, finalLevel, progress, expPerLevel);
     }
 
     /**

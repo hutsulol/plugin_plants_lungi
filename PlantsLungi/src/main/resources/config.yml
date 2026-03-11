@@ -30,6 +30,18 @@ seed-lore:
 # Custom model data for the seed item (wheat seeds base)
 seed-custom-model-data: 1001
 
+# Resource pack auto-push on player join
+# Upload your resourcepack.zip somewhere (e.g. GitHub Releases, own hosting)
+# then paste the direct download URL below and set enabled: true
+resource-pack:
+  enabled: false
+  url: ""
+  # SHA-256 hex hash of the zip file (optional but avoids re-download on reconnect)
+  sha256: ""
+  # Set true to kick players who decline the pack
+  required: false
+  prompt: "<yellow>Встановіть текстурний пак для відображення кастомних рослин!"
+
 # Messages
 messages:
   no-farmland: "&cРослину можна садити лише на пашню!"
