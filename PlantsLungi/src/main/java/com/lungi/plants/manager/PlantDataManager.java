@@ -66,6 +66,11 @@ public class PlantDataManager {
         return plantLocations.contains(normalize(loc));
     }
 
+    /** Returns a snapshot of all tracked plant locations (safe for iteration). */
+    public Set<Location> getLocations() {
+        return Set.copyOf(plantLocations);
+    }
+
     private Location normalize(Location loc) {
         return new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }

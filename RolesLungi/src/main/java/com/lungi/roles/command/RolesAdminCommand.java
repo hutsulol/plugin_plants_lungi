@@ -97,17 +97,17 @@ public class RolesAdminCommand implements CommandExecutor {
                 plugin.getSkillManager().applyEffects(target);
             }
             case "skillpoints" -> {
-                if (args.length < 4) {
-                    sender.sendMessage("§eВикористання: /roleadmin skillpoints <гравець> <роль> <кількість>");
+                if (args.length < 3) {
+                    sender.sendMessage("§eВикористання: /roleadmin skillpoints <гравець> <кількість>");
                     return true;
                 }
                 try {
-                    int points = Integer.parseInt(args[3]);
+                    int points = Integer.parseInt(args[2]);
                     data.addSkillPoints(points);
                     sender.sendMessage("§aВидано §e" + points + " §aочок навиків гравцю §e" + target.getName() +
                             "§a. Всього: §e" + data.getSkillPoints());
                 } catch (NumberFormatException e) {
-                    sender.sendMessage("§cНеправильне число: " + args[3]);
+                    sender.sendMessage("§cНеправильне число: " + args[2]);
                 }
             }
             default -> sender.sendMessage("§cНевідома дія: " + action + ". Використовуйте: set, give, reset, skillpoints");

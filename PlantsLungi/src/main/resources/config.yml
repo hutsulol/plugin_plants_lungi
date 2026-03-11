@@ -1,8 +1,8 @@
 # PlantsLungi Configuration
 
 # Growth time in ticks between stages (20 ticks = 1 second)
-# Default: 6000 = 5 minutes per stage
-growth-ticks: 6000
+# 200 = 10 seconds per stage (5 stages = ~50 seconds total)
+growth-ticks: 200
 
 # Command executed when a player harvests the custom plant
 # Placeholders: {player}, {amount}

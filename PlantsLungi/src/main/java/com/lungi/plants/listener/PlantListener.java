@@ -85,24 +85,14 @@ public class PlantListener implements Listener {
     }
 
     /**
-     * Handle plant growth - control our 5-stage growth cycle.
+     * Cancel vanilla growth for custom plants — growth is driven by our
+     * scheduled timer in PlantsPlugin (configurable via growth-ticks in config.yml).
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlantGrow(BlockGrowEvent event) {
-        Block block = event.getBlock();
-        if (!dataManager.isCustomPlant(block.getLocation())) return;
-        if (block.getType() != Material.WHEAT) return;
-
-        event.setCancelled(true);
-
-        // Advance one stage in our 5-stage system
-        int currentAge = ((Ageable) block.getBlockData()).getAge();
-        GrowthStage currentStage = GrowthStage.fromWheatAge(currentAge);
-
-        if (currentStage.isMature()) return; // Already mature
-
-        GrowthStage nextStage = currentStage.next();
-        setWheatAge(block, nextStage.getWheatAge());
+        if (dataManager.isCustomPlant(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
     }
 
     /**

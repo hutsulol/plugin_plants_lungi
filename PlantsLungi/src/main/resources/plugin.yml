@@ -17,4 +17,4 @@ commands:
 permissions:
   plants.admin.seed:
     description: Allows getting custom seeds
-    default: op
+    default: true
