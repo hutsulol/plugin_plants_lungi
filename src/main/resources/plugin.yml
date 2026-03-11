@@ -1,0 +1,20 @@
+name: PlantsLungi
+version: '1.0.0'
+main: com.lungi.plants.PlantsPlugin
+api-version: '1.21'
+description: Custom plant plugin with RPG integration
+authors: [Lungi]
+
+softdepend:
+  - RolesLungi
+
+commands:
+  plantseed:
+    description: Get a custom plant seed
+    usage: /plantseed [amount]
+    permission: plants.admin.seed
+
+permissions:
+  plants.admin.seed:
+    description: Allows getting custom seeds
+    default: op
