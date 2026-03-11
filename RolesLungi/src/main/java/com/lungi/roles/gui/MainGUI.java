@@ -126,7 +126,7 @@ public class MainGUI {
     private static Material getRoleMaterial(RoleType role) {
         return switch (role) {
             case FARMER -> Material.WHEAT;
-            case LUMBERJACK -> Material.OAK_AXE;
+            case LUMBERJACK -> Material.WOODEN_AXE;
             case MINER -> Material.DIAMOND_PICKAXE;
             case KNIGHT -> Material.DIAMOND_SWORD;
             case FISHER -> Material.FISHING_ROD;

@@ -48,7 +48,7 @@ public class GUIListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
         Inventory inv = event.getInventory();
-        String title = PlainTextComponentSerializer.plainText().serialize(inv.title());
+        String title = PlainTextComponentSerializer.plainText().serialize(event.getView().title());
 
         if (title.contains("Ролі та Прогрес")) {
             event.setCancelled(true);

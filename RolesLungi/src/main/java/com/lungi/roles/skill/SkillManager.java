@@ -4,32 +4,34 @@ import com.lungi.roles.RolesPlugin;
 import com.lungi.roles.data.PlayerData;
 import com.lungi.roles.data.PlayerDataManager;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.UUID;
-
 /**
  * Manages skill upgrades and their passive effects on players.
+ * Uses NamespacedKey-based AttributeModifiers (Paper 1.21.4 API).
  */
 public class SkillManager {
 
     private static final MiniMessage MM = MiniMessage.miniMessage();
-    private static final UUID VITALITY_MOD_UUID = UUID.fromString("a1b2c3d4-e5f6-7890-abcd-ef1234567890");
-    private static final UUID DAMAGE_MOD_UUID   = UUID.fromString("b2c3d4e5-f6a7-8901-bcde-f01234567891");
 
     private final RolesPlugin plugin;
+    private final NamespacedKey vitalityKey;
+    private final NamespacedKey damageKey;
 
     public SkillManager(RolesPlugin plugin) {
         this.plugin = plugin;
+        this.vitalityKey = new NamespacedKey(plugin, "vitality_bonus");
+        this.damageKey   = new NamespacedKey(plugin, "damage_bonus");
     }
 
     /**
      * Attempt to upgrade a skill for the given player.
-     * Returns true if successful, false if not enough points or at max level.
      */
     public boolean upgradeSkill(Player player, SkillType skill) {
         PlayerDataManager pdm = plugin.getPlayerDataManager();
@@ -81,7 +83,6 @@ public class SkillManager {
             return false;
         }
 
-        // Deduct 1 heart (2 HP)
         var maxHpAttr = player.getAttribute(Attribute.MAX_HEALTH);
         if (maxHpAttr == null || maxHpAttr.getValue() <= 2) {
             player.sendMessage(MM.deserialize("<red>Недостатньо здоров'я для активації!"));
@@ -107,87 +108,66 @@ public class SkillManager {
         applyVitality(player, data);
         applyDamage(player, data);
         applyDefense(player, data);
-        applyKnightCrit(player, data);
     }
 
     private void applyVitality(Player player, PlayerData data) {
-        var attr = player.getAttribute(Attribute.MAX_HEALTH);
+        AttributeInstance attr = player.getAttribute(Attribute.MAX_HEALTH);
         if (attr == null) return;
 
-        // Remove old modifier
-        attr.removeModifier(new AttributeModifier(VITALITY_MOD_UUID, 0,
-                AttributeModifier.Operation.ADD_NUMBER));
+        // Remove existing modifier by key
+        attr.removeModifier(vitalityKey);
 
-        // Calculate total HP adjustment
-        double hpBonus = data.getVitalityLevel() * 2.0; // +2 HP per level = 1 heart
+        double hpBonus = data.getVitalityLevel() * 2.0;           // +2 HP per level = 1 heart
         double hpPenalty = data.isKnightCritActive() ? -2.0 : 0.0; // -1 heart if crit active
-
         double totalMod = hpBonus + hpPenalty;
+
         if (totalMod != 0) {
-            AttributeModifier mod = new AttributeModifier(VITALITY_MOD_UUID, totalMod,
-                    AttributeModifier.Operation.ADD_NUMBER);
-            attr.addModifier(mod);
+            attr.addModifier(new AttributeModifier(vitalityKey, totalMod,
+                    AttributeModifier.Operation.ADD_NUMBER));
         }
 
-        // Ensure current health doesn't exceed new max
         if (player.getHealth() > attr.getValue()) {
             player.setHealth(attr.getValue());
         }
     }
 
     private void applyDamage(Player player, PlayerData data) {
-        var attr = player.getAttribute(Attribute.ATTACK_DAMAGE);
+        AttributeInstance attr = player.getAttribute(Attribute.ATTACK_DAMAGE);
         if (attr == null) return;
 
-        attr.removeModifier(new AttributeModifier(DAMAGE_MOD_UUID, 0,
-                AttributeModifier.Operation.ADD_NUMBER));
+        attr.removeModifier(damageKey);
 
         double bonus = data.getDamageLevel() * 0.5;
         if (bonus > 0) {
-            AttributeModifier mod = new AttributeModifier(DAMAGE_MOD_UUID, bonus,
-                    AttributeModifier.Operation.ADD_NUMBER);
-            attr.addModifier(mod);
+            attr.addModifier(new AttributeModifier(damageKey, bonus,
+                    AttributeModifier.Operation.ADD_NUMBER));
         }
     }
 
     private void applyDefense(Player player, PlayerData data) {
-        // Remove existing resistance effects applied by this plugin
         player.removePotionEffect(PotionEffectType.RESISTANCE);
 
         int defLevel = data.getDefenseLevel();
         if (defLevel <= 0) return;
 
-        // Resistance amplifier: 0 = Resistance I, 1 = Resistance II, 2 = Resistance III
-        int amplifier = Math.min(defLevel - 1, 2);
+        int amplifier = Math.min(defLevel - 1, 2); // 0=Resistance I, 1=II, 2=III
         player.addPotionEffect(new PotionEffect(
                 PotionEffectType.RESISTANCE,
                 Integer.MAX_VALUE,
                 amplifier,
                 false,
-                false,  // hide particles
-                true    // show icon
+                false,
+                true
         ));
     }
 
-    private void applyKnightCrit(Player player, PlayerData data) {
-        // The crit penalty (-1 heart) is applied via applyVitality
-        // Actual crit logic is in KnightListener
-    }
-
-    /**
-     * Remove all plugin-applied effects (called on quit to prevent duplication).
-     */
     public void removeEffects(Player player) {
         player.removePotionEffect(PotionEffectType.RESISTANCE);
-        var hpAttr = player.getAttribute(Attribute.MAX_HEALTH);
-        if (hpAttr != null) {
-            hpAttr.removeModifier(new AttributeModifier(VITALITY_MOD_UUID, 0,
-                    AttributeModifier.Operation.ADD_NUMBER));
-        }
-        var dmgAttr = player.getAttribute(Attribute.ATTACK_DAMAGE);
-        if (dmgAttr != null) {
-            dmgAttr.removeModifier(new AttributeModifier(DAMAGE_MOD_UUID, 0,
-                    AttributeModifier.Operation.ADD_NUMBER));
-        }
+
+        AttributeInstance hpAttr = player.getAttribute(Attribute.MAX_HEALTH);
+        if (hpAttr != null) hpAttr.removeModifier(vitalityKey);
+
+        AttributeInstance dmgAttr = player.getAttribute(Attribute.ATTACK_DAMAGE);
+        if (dmgAttr != null) dmgAttr.removeModifier(damageKey);
     }
 }

@@ -22,7 +22,7 @@ public class BuilderListener implements Listener {
     // Blocks that don't count for builder exp (too easy to abuse)
     private static final Set<Material> EXCLUDED_BLOCKS = EnumSet.of(
             Material.TORCH, Material.WALL_TORCH, Material.SOUL_TORCH,
-            Material.REDSTONE_TORCH, Material.LEVER, Material.BUTTON,
+            Material.REDSTONE_TORCH, Material.LEVER,
             Material.OAK_BUTTON, Material.BIRCH_BUTTON, Material.SPRUCE_BUTTON,
             Material.JUNGLE_BUTTON, Material.ACACIA_BUTTON, Material.DARK_OAK_BUTTON,
             Material.CRIMSON_BUTTON, Material.WARPED_BUTTON, Material.STONE_BUTTON,
@@ -31,7 +31,7 @@ public class BuilderListener implements Listener {
             Material.WHEAT_SEEDS, Material.CARROT, Material.POTATO,
             Material.BEETROOT_SEEDS, Material.MELON_SEEDS, Material.PUMPKIN_SEEDS,
             Material.DIRT, Material.GRAVEL, Material.SAND, Material.AIR,
-            Material.SIGN, Material.OAK_SIGN, Material.BIRCH_SIGN
+            Material.OAK_SIGN, Material.BIRCH_SIGN
     );
 
     private final RolesPlugin plugin;
